@@ -1,6 +1,14 @@
 <html>
 
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <style>
+        body {
+            font-family: Helvetica, Arial;
+
+        }
+    </style>
 
     <script>
 
@@ -8,32 +16,40 @@
     </script>
 </head>
 
+<body>
 
-<h1>hello</h1>
-
-
-<p>What size is your camera sensor?
-
-    <button id="sensor_mft">Micro Four Thirds</button>
-
-    <button id="sensor_apsc">APS-C</button>
-
-    <button id="sensor_ff">Full frame</button>
-</p>
-
-<p>
-    What type of camera do you have?
-
-    <button id="camera_mirrorless">Mirrorless</button>
-
-    <button id="camera_dslr">DSLR</button>
-
-</p>
+    <h1>Micael Widell's Macro Lens Buying Guide</h1>
 
 
-<p>
+    <p>What size is your camera sensor?
+
+        <button id="sensor_mft">Micro Four Thirds</button>
+
+        <button id="sensor_apsc">APS-C</button>
+
+        <button id="sensor_ff">Full frame</button>
+    </p>
+
+    <p style="visibility: hidden;">
+        What type of camera do you have?
+
+        <button id="camera_mirrorless">Mirrorless</button>
+
+        <button id="camera_dslr">DSLR</button>
+    </p>
 
 
-</p>
+    <p style="visibility: hidden;"><!-- only show if APS-C -->
+        Do you plan to upgrade to full frame and keep the macro lens?
+
+        <button id="upgrade_yes">Yes</button>
+
+        <button id="upgrade_no">No, I will keep to APS-C</button>
+
+    </p>
+
+
+
+    </body>
 </html>
 
