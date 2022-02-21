@@ -21,11 +21,33 @@
 
             h1 {
                 margin-bottom: 60px;
+                font-size: 22pt;
+            }
+
+            h2 {
+                font-size: 16pt;
+                text-align: center;
             }
 
             div.question + div.question {
                 margin-top: 20px;
+            }
 
+            div.lensresult {
+                display: none;
+                border: 1px solid #55d7ff;
+                background-color: #ffffff;
+                padding: 15px;
+                margin-top: 20px;
+                float: right;
+                max-width: 500px;
+            }
+
+            img.lensimage {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                width: 30%;
             }
         </style>
 
@@ -34,12 +56,80 @@
             var selectedCamera = null;
             var selectedUpgrade = null;
             var selectedInfinity = null;
+            var selectedApertureOrSize = null;
+
+
+
+            function showResultIfDone() {
+                $("div.lensresult").hide();
+                if (selectedSensor === "mft") {
+                    $("div.lensresult#laowa50mm").show();
+                } 
+                else if (selectedSensor === "apsc") {
+                    console.log("apsc!")
+
+                    // camera = mirrorless || dslr
+                    // upgrade = yes || no
+                    // infinity = yes || no
+                    // apertureorsize = aperture || size
+                    if (selectedCamera === "mirrorless") {
+                        console.log("mirrorless!!!")
+                        if (selectedUpgrade === "no") {
+                            $("div.lensresult#laowa65mm").show();
+                        } else if (selectedUpgrade === "yes") {
+                            $("div.lensresult#laowa60mm").show();
+                        }
+                        // donät 
+                        
+                    } else if (selectedCamera === "dslr") {
+                        $("div.lensresult#laowa60mm").show();
+                    }
+                } else if (selectedSensor === "ff") {
+                    console.log("ff!")
+                    if (selectedCamera === "mirrorless") {
+                        if (selectedApertureOrSize == "size") {
+                            $("div.lensresult#laowa85mm").show();
+                        } else {
+                            if (selectedInfinity === "yes") {
+                                $("div.lensresult#laowa100mm").show();
+                            } else if (selectedInfinity === "no") {
+                                $("div.lensresult#laowa60mm").show();
+                            }
+                        }
+                    } else {
+                        if (selectedInfinity === "yes") {
+                            $("div.lensresult#laowa100mm").show();
+                        } else if (selectedInfinity === "no") {
+                            $("div.lensresult#laowa60mm").show();
+                        }
+                    }
+
+                }
+            }
 
             $(document).ready(function(){
+
+                $('button#letsgo').click(function(){
+                    $("div#welcome").hide();
+                    $("div#q_sensor").show();
+                });
+
                 $('input[name=sensor_size]').change(function(){
                     selectedSensor = $(this).attr('value');
-                    $('#q_camera').show();
+                    if (selectedSensor == 'mft') {
+                        $('#q_upgrade').hide();
+                        $('#q_camera').hide();
+                        $('#q_infinity').hide();
+                        $('#q_apertureorsize').hide();
+                    } else {
+                        $('#q_camera').show();
+                        $('#q_upgrade').hide();
+
+                    }
+                    showResultIfDone();
+
                 });
+
                 $('input[name=camera]').change(function(){
                     selectedCamera = $(this).attr('value');
                     if (selectedSensor == 'apsc') {
@@ -47,39 +137,137 @@
                     } else {
                         $('#q_infinity').show();
                     }
+
+                    showResultIfDone();
+
                 });
+
                 $('input[name=upgrade]').change(function(){
                     selectedUpgrade = $(this).attr('value');
                     $('#q_infinity').show();
+                    showResultIfDone();
+
                 });
 
                 $('input[name=infinity]').change(function(){
                     selectedInfinity = $(this).attr('value');
                     $('#q_apertureorsize').show();
-                });
+                    showResultIfDone();
 
+                });
+                $('input[name=apertureorsize]').change(function(){
+                    selectedApertureOrSize = $(this).attr('value');
+                    showResultIfDone();
+                });
                 
             });
         </script>
-</head>
+    </head>
 
 <body>
 
-    <h1>Micael Widell's Macro Lens Buying Guide</h1>
+    <h1>Micael Widell's (Laowa) Macro Lens Buying Guide</h1>
 
     <!---
     TODO:
-    [ ] Auto-hide upgrade field if not APS-C
+    [x] Auto-hide upgrade field if not APS-C
     [ ] Result box at the end that automatically changes when ticking different radios
         - affiliate link + disclosure
         - link to video review
         - image
         - pros/cons
-    [ ] Small explainer/intro at the top
+    [x] Small explainer/intro at the top
+    [ ] Write the helpers for finding out sensor and camera type
+    [ ] Test in some different browsers
 
     -->
 
-    <div class="question"><strong>What size is your camera sensor?</strong>
+    <div class="lensresult" id="laowa60mm">
+        <p style="text-align: center;"><b >Micael's recommendation: </b></p>
+        <img src="images/laowa60mm.jpeg" class="lensimage" />
+        <h2>Laowa 60mm</h2>
+
+        <p>I recommend the Laowa 60mm lens... </p>
+
+        <p>I recommend buying the lens at Laowa's official website. I always buy my Laowa lenses directly from there, as they often aren't in stock locally, and as they offer the best price, as well as fast and free worldwide shipping. Please use <a href="https://bit.ly/mwlaowa60">this link to buy the Laowa 60mm</a> as it gives me a small commission at no extra cost to you. </p>
+
+        <ul>
+            <li>Micael's <a href="https://www.youtube.com/watch?v=VR6GTvH684c">Laowa 60mm first impressions video</a></a></li>
+            <li>Micael's video on why he prefers the <a href="https://www.youtube.com/watch?v=QBgJHQUSzxQ">60mm over the 100mm Laowa lens</a></li>
+            <li>Order the Laowa 60mm <a href="https://bit.ly/mwlaowa60">here</a></li>
+        </ul>
+    </div>
+    <div class="lensresult" id="laowa100mm">
+        <p style="text-align: center;"><b >Micael's recommendation: </b></p>
+        <img src="images/laowa100mm.jpeg" class="lensimage" />
+        <h2>Laowa 100mm</h2>
+
+        <p>I recommend the Laowa 100mm lens... </p>
+
+        <p>I recommend buying the lens at Laowa's official website. I always buy my Laowa lenses directly from there, as they often aren't in stock locally, and as they offer the best price, as well as fast and free worldwide shipping. Please use <a href="https://bit.ly/mwlaowa100">this link to buy the Laowa 100mm</a> as it gives me a small commission at no extra cost to you. </p>
+
+        <ul>
+            <li>Micael's <a href="https://www.youtube.com/watch?v=QYigJviAofg">Laowa 100mm review video</a></a></li>
+            <li>Order the Laowa 100mm <a href="https://bit.ly/mwlaowa100">here</a></li>
+        </ul>
+    </div>
+    <div class="lensresult" id="laowa85mm">
+        <p style="text-align: center;"><b >Micael's recommendation: </b></p>
+        <img src="images/laowa85mm.jpeg" class="lensimage" />
+        <h2>Laowa 85mm</h2>
+
+        <p>I recommend the Laowa 85mm lens warmly to anyone with a full frame camera, who wants an excellent 2x macro lens that is extremely small and lightweight, and who doesn't need the wide f/2.8 aperture that most other macro lenses offer.</p>
+
+        <p>I recommend buying the lens at Laowa's official website. I always buy my Laowa lenses directly from there, as they often aren't in stock locally, and as they offer the best price, as well as fast and free worldwide shipping. Please use <a href="https://bit.ly/mwlaowa85">this link to buy the Laowa 85mm</a> as it gives me a small commission at no extra cost to you. </p>
+
+        <ul>
+            <li>Micael's <a href="https://www.youtube.com/watch?v=FwUcWlf7AJw">Laowa 85mm review video</a></a></li>
+            <li>Order the Laowa 85mm <a href="https://bit.ly/mwlaowa85">here</a></li>
+        </ul>
+    </div>
+    <div class="lensresult" id="laowa65mm">
+        <p style="text-align: center;"><b >Micael's recommendation: </b></p>
+        <img src="images/laowa65mm.jpeg" class="lensimage" />
+        <h2>Laowa 65mm</h2>
+
+        <p>If you have an APS-C mirrorless camera and no plans to upgrade to full frame anytime soon, the Laowa 65mm is the lens I would strongly recommend. </p>
+
+        <p>I recommend buying the lens at Laowa's official website. I always buy my Laowa lenses directly from there, as they often aren't in stock locally, and as they offer the best price, as well as fast and free worldwide shipping. Please use <a href="https://bit.ly/mwlaowa65">this link to buy the Laowa 65mm</a> as it gives me a small commission at no extra cost to you. </p>
+
+        <ul>
+            <li>Micael's <a href="https://www.youtube.com/watch?v=E26KCGFKTEU">Laowa 65mm review video</a></a></li>
+            <li>Order the Laowa 65mm <a href="https://bit.ly/mwlaowa65">here</a></li>
+        </ul>
+    </div>
+    <div class="lensresult" id="laowa50mm">
+        <p style="text-align: center;"><b >Micael's recommendation: </b></p>
+        <img src="images/laowa50mm.jpeg" class="lensimage" />
+        <h2>Laowa 50mm</h2>
+
+        <p>If you have a micro-four thirds camera this is the Laowa macro lens you should get. There is no good point trying to buy any of the other lenses and trying to convert them to MFT, when there is a lens especially made for MFT, optimized in size and optics.</p>
+
+        <p>I recommend buying the lens at Laowa's official website. I always buy my Laowa lenses directly from there, as they often aren't in stock locally, and as they offer the best price, as well as fast and free worldwide shipping. Please use <a href="https://bit.ly/mwlaowa50">this link to buy the Laowa 50mm</a> as it gives me a small commission at no extra cost to you. </p>
+
+        <ul>
+            <li>Micael's <a href="https://www.youtube.com/watch?v=QtPUGwkznkw">Laowa 50mm review video</a></a></li>
+            <li>Order the Laowa 50mm <a href="https://bit.ly/mwlaowa50">here</a></li>
+        </ul>
+    </div>
+
+    <div id="welcome" style="max-width: 600px;">
+        <p>The most common question I get from my <a href="https://youtube.com/MicaelWidell">Youtube subscribers</a> and <a href="https://instagram.com/mwroll">Instagram followers</a> on a daily basis is "what Laowa macro lens should I buy?"</p> 
+        
+        <p>So I have created this simple form where you answer some basic questions about your camera and what you want to use the lens for, and I will give you my recommendation. This is what I normally do when answering your questions about this anyway, so now I can outsource that work to this little webpage. :) </p>
+
+        <p>Please <a href="https://mwroll.com/contact">let me know</a> if you find a bug or have other questions.</p>
+
+        <p>/Micael</p>
+
+
+        <p><button id="letsgo">Ok, let's go!</button></p>
+    </div>
+
+    <div class="question" id="q_sensor" style="display: none;"><strong>What size is your camera sensor?</strong>
         <a href="">How do I find out?</a>
         <div class="form-check">
             <input class="form-check-input" type="radio" name="sensor_size" id="sensor_mft" value="mft">
@@ -141,6 +329,9 @@
             <label class="form-check-label" for="apertureorsize_size">Small size/weight – I will mostly shoot at small apertures (f/5.6-f/16) anyway</label>
         </div>
     </div>
+
+
+
 
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
