@@ -17,11 +17,12 @@
                 font-family: Helvetica, Arial;
                 margin: 60px;
                 font-size: 12pt;
+                max-width: 600px;
             }
 
             h1 {
                 margin-bottom: 60px;
-                font-size: 22pt;
+                font-size: 20pt;
             }
 
             h2 {
@@ -39,9 +40,7 @@
                 background-color: #ffffff;
                 padding: 15px;
                 margin-top: 20px;
-                float: right;
-                max-width: 500px;
-                margin-bottom: 15px;
+
             }
 
             img.lensimage {
@@ -49,6 +48,10 @@
                 margin-left: auto;
                 margin-right: auto;
                 width: 30%;
+            }
+
+            button {
+                margin-top: 20px;
             }
         </style>
 
@@ -58,54 +61,69 @@
             var selectedUpgrade = null;
             var selectedInfinity = null;
             var selectedApertureOrSize = null;
+            var resultToShow = null;
 
-            function showResultIfDone() {
+            function showButtonIfPossible() {
                 $("div.lensresult").hide();
+
                 if (selectedSensor === "mft") {
-                    $("div.lensresult#laowa50mm").show();
+                    resultToShow = "laowa50mm";
+                    $("button#showMyLens").show();
                 } 
                 else if (selectedSensor === "apsc") {
                     if (selectedCamera === "mirrorless") {
                         if (selectedUpgrade === "no") {
-                            $("div.lensresult#laowa65mm").show();
+                            resultToShow = "laowa65mm";
+                            $("button#showMyLens").show();
                         } else if (selectedUpgrade === "yes") {
                             if (selectedApertureOrSize == "size") {
-                                $("div.lensresult#laowa85mm").show();
+                                resultToShow = "laowa85mm";
+                                $("button#showMyLens").show();
                             } else {
                                 if (selectedInfinity === "yes") {
-                                    $("div.lensresult#laowa100mm").show();
+                                    resultToShow = "laowa100mm";
+                                    $("button#showMyLens").show();
                                 } else if (selectedInfinity === "no") {
-                                    $("div.lensresult#laowa60mm").show();
+                                    resultToShow = "laowa60mm";
+                                    $("button#showMyLens").show();
                                 }
                             }
                         }
                     } else if (selectedCamera === "dslr") {
                         if (selectedUpgrade === "no") {
-                            $("div.lensresult#laowa60mm").show();
+                            resultToShow = "laowa60mm";
+                            $("button#showMyLens").show();
                         } else if (selectedUpgrade === "yes") {
                             if (selectedInfinity === "yes") {
-                                $("div.lensresult#laowa100mm").show();
+                                resultToShow = "laowa100mm";
+                                $("button#showMyLens").show();
                             } else if (selectedInfinity === "no") {
-                                $("div.lensresult#laowa60mm").show();
+                                resultToShow = "laowa60mm";
+                                $("button#showMyLens").show();
                             }
                         }
                     }
                 } else if (selectedSensor === "ff") {
                     if (selectedCamera === "mirrorless") {
                         if (selectedApertureOrSize == "size") {
-                            $("div.lensresult#laowa85mm").show();
+                            resultToShow = "laowa85mm";
+                            $("button#showMyLens").show();
                         } else {
                             if (selectedInfinity === "yes") {
-                                $("div.lensresult#laowa100mm").show();
+                                resultToShow = "laowa100mm";
+                                $("button#showMyLens").show();
                             } else if (selectedInfinity === "no") {
-                                $("div.lensresult#laowa60mm").show();
+                                resultToShow = "laowa60mm";
+                                $("button#showMyLens").show();
                             }
                         }
                     } else {
                         if (selectedInfinity === "yes") {
-                            $("div.lensresult#laowa100mm").show();
+                            resultToShow = "laowa100mm";
+                            $("button#showMyLens").show();
                         } else if (selectedInfinity === "no") {
-                            $("div.lensresult#laowa60mm").show();
+                            resultToShow = "laowa60mm";
+                            $("button#showMyLens").show();
                         }
                     }
 
@@ -119,6 +137,19 @@
                     $("div#q_sensor").show();
                 });
 
+                $("button#showMyLens").click(function(){
+                    if (resultToShow != null) {
+                        $("div.question").hide();
+                        $("button#showMyLens").hide();
+                        $("div.lensresult#" + resultToShow).show();
+                        $("button#tryAgain").show();
+                        resultToShow = null;
+                    }
+                });
+
+                $("button#tryAgain").click(function(){
+                    location.reload();
+                });
                 $('input[name=sensor_size]').change(function(){
                     selectedSensor = $(this).attr('value');
                     if (selectedSensor == 'mft') {
@@ -133,11 +164,8 @@
                         } else {
                             $('#q_upgrade').show();
                         }
-
-
                     }
-                    showResultIfDone();
-
+                    showButtonIfPossible();
                 });
 
                 $('input[name=camera]').change(function(){
@@ -147,25 +175,24 @@
                     } else {
                         $('#q_infinity').show();
                     }
-                    showResultIfDone();
+                    showButtonIfPossible();
                 });
 
                 $('input[name=upgrade]').change(function(){
                     selectedUpgrade = $(this).attr('value');
                     $('#q_infinity').show();
-                    showResultIfDone();
+                    showButtonIfPossible();
 
                 });
 
                 $('input[name=infinity]').change(function(){
                     selectedInfinity = $(this).attr('value');
                     $('#q_apertureorsize').show();
-                    showResultIfDone();
-
+                    showButtonIfPossible();
                 });
                 $('input[name=apertureorsize]').change(function(){
                     selectedApertureOrSize = $(this).attr('value');
-                    showResultIfDone();
+                    showButtonIfPossible();
                 });
                 
             });
@@ -173,7 +200,7 @@
     </head>
 
     <body>
-
+        <h1>Micael Widell's (Laowa) Macro Lens Buying Guide</h1>
         <div class="lensresult" id="laowa60mm">
             <p style="text-align: center;"><b >Micael's recommendation: </b></p>
             <img src="images/laowa60mm.jpeg" class="lensimage" />
@@ -247,7 +274,7 @@
         </div>
         <div style="max-width: 600px; float: left;">
 
-            <h1>Micael Widell's (Laowa) Macro Lens Buying Guide</h1>
+            
 
 
             <div id="welcome" >
@@ -260,7 +287,7 @@
                 <p>/Micael</p>
 
 
-                <p><button id="letsgo">Ok, let's go!</button></p>
+                <p><button class="btn btn-primary" id="letsgo">Ok, let's go!</button></p>
             </div>
 
             <div class="question" id="q_sensor" style="display: none;"><strong>What size is your camera sensor?</strong>
@@ -326,7 +353,9 @@
                 </div>
             </div>
 
+            <button class="btn btn-primary" id="showMyLens" style="display:none; ">Show me my lens!</button>
 
+            <button class="btn btn-primary" id="tryAgain" style="display:none; ">Try again</button>
         </div>
 
         <!-- Optional JavaScript -->
@@ -334,6 +363,8 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
     </body>
 </html>
 
